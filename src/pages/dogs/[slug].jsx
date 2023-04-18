@@ -23,23 +23,6 @@ export default function Dogs({ data }) {
   );
 }
 
-/* Doing static makes sure it's prerendered and only generated once */
-export async function getStaticPaths() {
-  const api = "https://bucolic-bombolone-857476.netlify.app/api/dogs";
-  const res = await fetch(api);
-  const data = await res.json();
-
-  const paths = data.map(object => {
-    console.log(object);
-    return { params: { slug: object.slug } };
-  });
-  console.log(data);
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
 export async function getStaticProps(context) {
   console.log(context.params.slug);
   const slug = context.params.slug;
@@ -57,5 +40,22 @@ export async function getStaticProps(context) {
     props: {
       data: data,
     },
+  };
+}
+
+/* Doing static makes sure it's prerendered and only generated once */
+export async function getStaticPaths() {
+  const api = "https://bucolic-bombolone-857476.netlify.app/api/dogs";
+  const res = await fetch(api);
+  const data = await res.json();
+
+  const paths = data.map(object => {
+    console.log(object);
+    return { params: { slug: object.slug } };
+  });
+  console.log(data);
+  return {
+    paths,
+    fallback: false,
   };
 }
