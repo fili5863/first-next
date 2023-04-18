@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import Layout from "@/components/Layout";
-import MyApp from "next/app";
+import App from "next/app";
 
 export default function MyApp({ Component, pageProps, navData }) {
   return (
