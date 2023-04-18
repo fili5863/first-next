@@ -7,6 +7,7 @@ export default function RandomDog({ imgUrl }) {
     </>
   );
 }
+/* The serversiderprops gets the all the information from a server instead of a static page */
 export async function getServerSideProps() {
   const api = "https://dog.ceo/api/breeds/image/random";
   const res = await fetch(api);

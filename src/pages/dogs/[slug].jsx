@@ -10,6 +10,8 @@ export default function Dogs({ data }) {
       </Head>
       <h1>{content.heading}</h1>
       <p>{content.text}</p>
+
+      {/* We use the image component to optimise it automatically instead of having to do it ourselves */}
       <Image
         src={content.image.src}
         alt={content.image.alt}
@@ -19,6 +21,23 @@ export default function Dogs({ data }) {
       />
     </>
   );
+}
+
+/* Doing static makes sure it's prerendered and only generated once */
+export async function getStaticPaths() {
+  const api = "https://bucolic-bombolone-857476.netlify.app/api/dogs";
+  const res = await fetch(api);
+  const data = await res.json();
+
+  const paths = data.map(object => {
+    console.log(object);
+    return { params: { slug: object.slug } };
+  });
+  console.log(data);
+  return {
+    paths,
+    fallback: false,
+  };
 }
 
 export async function getStaticProps(context) {
@@ -38,21 +57,5 @@ export async function getStaticProps(context) {
     props: {
       data: data,
     },
-  };
-}
-
-export async function getStaticPaths() {
-  const api = "https://bucolic-bombolone-857476.netlify.app/api/dogs";
-  const res = await fetch(api);
-  const data = await res.json();
-
-  const paths = data.map(object => {
-    console.log(object);
-    return { params: { slug: object.slug } };
-  });
-  console.log(data);
-  return {
-    paths,
-    fallback: false,
   };
 }
